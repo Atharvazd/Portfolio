@@ -3,32 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Simple Website</title>
+    <title>My Blog</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: #222;
+            color: white;
+            padding: 15px 40px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 25px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #00bfff;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            min-height: 500px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #666;
+        }
+
+        /* Footer */
+        footer {
+            background: #222;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav ul {
+                margin-top: 15px;
+                flex-direction: column;
+            }
+
+            nav ul li {
+                margin: 10px 0;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <!-- Main heading -->
-    <h1>Welcome to My Website</h1>
 
-    <!-- Paragraph -->
-    <p>This is my first simple HTML page. HTML is the standard markup language for creating web pages.</p>
+<header>
+    <div class="navbar">
+        <div class="logo">My Blog</div>
 
-    <!-- Link -->
-    <p>Visit <a href="posts.html">My posts</a></p>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="posts.html">Posts</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
 
-    <!-- Image -->
-    <img src="https://via.placeholder.com/300x150" alt="Sample Image" width="300" height="150">
+<main>
 
-    <!-- List -->
-    <h2>My Favorite Things</h2>
-    <ul>
-        <li>Coding</li>
-        <li>Reading</li>
-        <li>Traveling</li>
-    </ul>
+    <section class="hero">
+        <h1>Welcome to My Blog</h1>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2026 My Simple Website</p>
-    </footer>
+        <p>
+            Explore articles, tutorials, thoughts, and ideas on technology,
+            programming, and much more.
+        </p>
+    </section>
+
+</main>
+
+<footer>
+    <p>&copy; 2026 My Blog. All Rights Reserved.</p>
+</footer>
+
 </body>
 </html>
