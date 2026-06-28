@@ -10,7 +10,7 @@ collections:
   - name: "Posts"
     label: "Blog Posts"
 
-    folder: "posts"
+    folder: "Posts"
 
     create: true
 
