@@ -7,23 +7,47 @@
 
   <title>Decap CMS</title>
 
-</head>
+  <!-- Netlify Identity -->
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-   <script>
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", function(user) {
-        if (!user) {
-          window.netlifyIdentity.open();
-        }
-      });
-    }
-  </script>
+
+  <!-- Decap CMS -->
+  <script src="https://unpkg.com/decap-cms@latest/dist/decap-cms.js"></script>
+</head>
 
 <body>
-
   <div id="nc-root"></div>
 
-  <script src="https://unpkg.com/decap-cms/dist/decap-cms.js"></script>
+  <script>
+    if (window.netlifyIdentity) {
+
+      // IMPORTANT: handle invite / recovery / confirmation tokens
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/admin/";
+          });
+
+          // If URL has invite token, open identity modal automatically
+          if (window.location.hash.includes("invite_token") ||
+              window.location.hash.includes("recovery_token") ||
+              window.location.hash.includes("confirmation_token")) {
+            window.netlifyIdentity.open();
+          }
+        }
+      });
+
+      // After login redirect cleanly into CMS
+      window.netlifyIdentity.on("login", () => {
+        window.location.href = "/admin/";
+      });
+
+      window.netlifyIdentity.on("logout", () => {
+        window.location.href = "/";
+      });
+
+      window.netlifyIdentity.init();
+    }
+  </script>
 
 </body>
 
