@@ -7,7 +7,7 @@ media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
 collections:
-  - name: "posts"
+  - name: "Posts"
     label: "Blog Posts"
 
     folder: "posts"
