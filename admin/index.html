@@ -14,21 +14,19 @@
 
 <script>
 if (window.netlifyIdentity) {
+  window.netlifyIdentity.init();
 
-    window.netlifyIdentity.on("init", user => {
+  window.netlifyIdentity.on("init", user => {
+    console.log("Identity initialized", user);
+  });
 
-        if (!user) {
+  window.netlifyIdentity.on("login", () => {
+    document.location.href = "/admin/";
+  });
 
-            window.netlifyIdentity.on("login", () => {
-
-                document.location.href = "/admin/";
-
-            });
-
-        }
-
-    });
-
+  window.netlifyIdentity.on("error", err => {
+    console.error(err);
+  });
 }
 </script>
 
