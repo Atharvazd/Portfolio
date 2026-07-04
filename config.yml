@@ -1,0 +1,10 @@
+title: My Blog
+description: Simple blog using Jekyll + Decap CMS
+
+markdown: kramdown
+
+permalink: /posts/:title/
+
+collections:
+  posts:
+    output: true
