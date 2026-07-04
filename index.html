@@ -145,6 +145,20 @@
 <footer>
     <p>&copy; 2026 My Blog. All Rights Reserved.</p>
 </footer>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
+<script>
+if (window.netlifyIdentity) {
+  window.netlifyIdentity.init();
+
+  // Handle email confirmation
+  if (window.location.hash.includes("confirmation_token")) {
+    window.netlifyIdentity.on("init", () => {
+      // After the token is processed, send the user to the CMS
+      window.location.href = "/admin/";
+    });
+  }
+}
+</script>
 </body>
 </html>
