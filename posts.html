@@ -3,15 +3,30 @@ layout: default
 title: Posts
 ---
 
-<h1>Posts</h1>
+<h1>All Posts</h1>
 
-<ul>
+{% if site.posts.size == 0 %}
+  <p>No posts have been published yet.</p>
+{% else %}
+  <ul class="post-list">
+    {% for post in site.posts %}
+      <li>
+        <h2>
+          <a href="{{ post.url | relative_url }}">
+            {{ post.title }}
+          </a>
+        </h2>
 
-{% for post in site.posts %}
-  <li>
-    <a href="{{ post.url }}">{{ post.title }}</a>
-    <small>{{ post.date | date: "%d %b %Y" }}</small>
-  </li>
-{% endfor %}
+        <p>{{ post.date | date: "%d %B %Y" }}</p>
 
-</ul>
+        {% if post.excerpt %}
+          <p>{{ post.excerpt }}</p>
+        {% endif %}
+
+        <a href="{{ post.url | relative_url }}">Read More →</a>
+
+        <hr>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
