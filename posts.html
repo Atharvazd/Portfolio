@@ -1,73 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Posts Page</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 1rem;
-            text-align: center;
-        }
-        .container {
-            max-width: 900px;
-            margin: auto;
-            padding: 1rem;
-        }
-        .post {
-            background: #fff;
-            margin-bottom: 1.5rem;
-            padding: 1rem;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .post h2 {
-            margin-top: 0;
-            color: #333;
-        }
-        .meta {
-            font-size: 0.9rem;
-            color: #777;
-            margin-bottom: 0.5rem;
-        }
-        .post p {
-            line-height: 1.6;
-        }
-        footer {
-            text-align: center;
-            padding: 1rem;
-            background: #333;
-            color: #fff;
-            margin-top: 2rem;
-        }
-    </style>
-</head>
-<body>
+---
+layout: default
+title: Posts
+---
 
-<header>
-    <h1>My Blog Posts</h1>
-</header>
+<h1>Posts</h1>
 
-    <ul>
-  {% for post in site.posts %}
-    <li>
-      <a href="{{ post.url }}">{{ post.title }}</a>
-      <small>{{ post.date | date: "%d %b %Y" }}</small>
-    </li>
-  {% endfor %}
+<ul>
+{% raw %}
+{% for post in site.posts %}
+  <li>
+    <a href="{{ post.url }}">{{ post.title }}</a>
+    <small>{{ post.date | date: "%d %b %Y" }}</small>
+  </li>
+{% endfor %}
+{% endraw %}
 </ul>
-
-<footer>
-    &copy; 2026 My Blog. All rights reserved.
-</footer>
-
-</body>
-</html>
