@@ -56,25 +56,14 @@
     <h1>My Blog Posts</h1>
 </header>
 
-<div class="container">
-    <div class="post">
-        <h2>Post Title One</h2>
-        <div class="meta">By John Doe | June 6, 2026</div>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet facilisis urna. Praesent ultrices nulla at erat bibendum, nec fermentum ipsum facilisis.</p>
-    </div>
-
-    <div class="post">
-        <h2>Post Title Two</h2>
-        <div class="meta">By Jane Smith | June 5, 2026</div>
-        <p>Curabitur non nulla site amet nisl tempus convallis quis ac lectus. Nulla porttitor accumsan tincidunt. Vivamus suscipit tortor eget felis porttitor volutpat.</p>
-    </div>
-
-    <div class="post">
-        <h2>Post Title Three</h2>
-        <div class="meta">By Alex Brown | June 4, 2026</div>
-        <p>Donec sollicitudin molestie malesuada. Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus. Nulla quis lorem ut libero malesuada feugiat.</p>
-    </div>
-</div>
+    <ul>
+  {% for post in site.posts %}
+    <li>
+      <a href="{{ post.url }}">{{ post.title }}</a>
+      <small>{{ post.date | date: "%d %b %Y" }}</small>
+    </li>
+  {% endfor %}
+</ul>
 
 <footer>
     &copy; 2026 My Blog. All rights reserved.
