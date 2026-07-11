@@ -1,0 +1,263 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Complete Registration</title>
+
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+<style>
+
+body {
+    font-family: Arial, sans-serif;
+    max-width:400px;
+    margin:60px auto;
+    background:#f5f5f5;
+}
+
+.container {
+    background:white;
+    padding:25px;
+    border-radius:8px;
+}
+
+input {
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+    box-sizing:border-box;
+}
+
+button {
+    width:100%;
+    padding:12px;
+    cursor:pointer;
+    background:#222;
+    color:white;
+    border:none;
+}
+
+button:hover {
+    background:#444;
+}
+
+#error {
+    color:red;
+    margin-top:15px;
+}
+
+#success {
+    color:green;
+    margin-top:15px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+<h2>Create Account</h2>
+
+<p>Complete your invited account setup.</p>
+
+
+<input
+type="text"
+id="username"
+placeholder="Username">
+
+
+<input
+type="password"
+id="password"
+placeholder="Password">
+
+
+<input
+type="password"
+id="confirm"
+placeholder="Confirm Password">
+
+
+<button id="create">
+Create Account
+</button>
+
+
+<p id="error"></p>
+
+<p id="success"></p>
+
+
+</div>
+
+
+
+<script>
+
+
+const identity = window.netlifyIdentity;
+
+
+identity.init();
+
+
+
+const params =
+new URLSearchParams(
+    window.location.hash.substring(1)
+);
+
+
+
+const inviteToken =
+params.get("invite_token");
+
+
+
+const error =
+document.getElementById("error");
+
+
+const success =
+document.getElementById("success");
+
+
+
+if(!inviteToken){
+
+    error.innerHTML =
+    "Invalid invitation link.";
+
+    document.getElementById("create").disabled=true;
+
+}
+
+
+
+
+
+document
+.getElementById("create")
+.onclick = async function(){
+
+
+
+const username =
+document.getElementById("username").value.trim();
+
+
+const password =
+document.getElementById("password").value;
+
+
+const confirm =
+document.getElementById("confirm").value;
+
+
+
+error.innerHTML="";
+success.innerHTML="";
+
+
+
+if(username===""){
+
+    error.innerHTML =
+    "Please enter username.";
+
+    return;
+
+}
+
+
+
+if(password.length < 8){
+
+    error.innerHTML =
+    "Password must be at least 8 characters.";
+
+    return;
+
+}
+
+
+
+if(password !== confirm){
+
+    error.innerHTML =
+    "Passwords do not match.";
+
+    return;
+
+}
+
+
+
+try {
+
+
+const user =
+await identity.acceptInvite(
+    inviteToken,
+    password,
+    true
+);
+
+
+
+await user.update({
+
+    data:{
+        username:username
+    }
+
+});
+
+
+
+success.innerHTML =
+"Account created. Redirecting...";
+
+
+
+setTimeout(()=>{
+
+    window.location.href="/admin/";
+
+},1500);
+
+
+
+}
+
+catch(err){
+
+
+console.error(err);
+
+
+error.innerHTML =
+err.message;
+
+
+}
+
+
+
+};
+
+
+
+</script>
+
+
+</body>
+</html>
+```
