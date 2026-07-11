@@ -1,231 +1,43 @@
-
 <!DOCTYPE html>
 <html>
 <head>
 
 <title>Complete Registration</title>
 
-
-
-<style>
-
-body {
-    font-family: Arial, sans-serif;
-    max-width: 420px;
-    margin: 60px auto;
-    background:#f5f5f5;
-}
-
-.container {
-    background:white;
-    padding:25px;
-    border-radius:8px;
-}
-
-input {
-    width:100%;
-    padding:12px;
-    margin:10px 0;
-    box-sizing:border-box;
-}
-
-button {
-    width:100%;
-    padding:12px;
-    cursor:pointer;
-}
-
-#error {
-    color:red;
-}
-
-#debug {
-    color:#666;
-    font-size:12px;
-}
-
-</style>
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-</head>
 
+</head>
 
 <body>
 
+<h2>Complete your account setup</h2>
 
-<div class="container">
-
-<h2>Create Account</h2>
-
-<input 
-id="username"
-placeholder="Username">
-
-
-<input 
-id="password"
-type="password"
-placeholder="Password">
-
-
-<input 
-id="confirm"
-type="password"
-placeholder="Confirm Password">
-
-
-<button id="create">
-Create Account
-</button>
-
-
-<p id="error"></p>
-
-<p id="debug"></p>
-
-
-</div>
-
+<p>Please complete signup in the popup.</p>
 
 
 <script>
 
-
-const error =
-document.getElementById("error");
+window.netlifyIdentity.init();
 
 
-const debug =
-document.getElementById("debug");
+window.netlifyIdentity.on("init", function(user){
 
+    if(user){
 
+        window.location.href="/admin/";
 
-console.log(
-"Current URL:",
-window.location.href
-);
-
-
-
-console.log(
-"Hash:",
-window.location.hash
-);
-
-
-
-const hash =
-window.location.hash.substring(1);
-
-
-
-const params =
-new URLSearchParams(hash);
-
-
-
-const inviteToken =
-params.get("invite_token");
-
-
-
-debug.innerHTML =
-"Token found: " + inviteToken;
-
-
-
-if(!inviteToken){
-
-
-error.innerHTML =
-"Invalid invitation link. No invite token found.";
-
-
-document.getElementById("create").disabled=true;
-
-
-}
-
-
-
-
-document
-.getElementById("create")
-.onclick = async function(){
-
-
-
-const username =
-document.getElementById("username").value.trim();
-
-
-const password =
-document.getElementById("password").value;
-
-
-const confirm =
-document.getElementById("confirm").value;
-
-
-
-error.innerHTML="";
-
-
-
-if(password !== confirm){
-
-error.innerHTML =
-"Passwords do not match";
-
-return;
-
-}
-
-
-
-try {
-
-
-const user =
-await window.netlifyIdentity.acceptInvite(
-    inviteToken,
-    password,
-    true
-);
-
-
-
-await user.update({
-
-data:{
-    username:username
-}
+    }
 
 });
 
 
+window.netlifyIdentity.on("login", function(user){
 
-alert(
-"Account created successfully"
-);
+    console.log("User created:", user);
 
+    window.location.href="/admin/";
 
-window.location.href="/admin/";
-
-
-
-}
-
-catch(err){
-
-console.error(err);
-
-error.innerHTML =
-err.message;
-
-}
-
-
-};
+});
 
 
 </script>
