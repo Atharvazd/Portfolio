@@ -1,34 +1,46 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Complete Registration</title>
+<title>Admin</title>
 
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
 <style>
 body{
-    font-family:Arial;
-    max-width:450px;
-    margin:60px auto;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f5f5f5;
 }
 
-#signup{
-    display:none;
+.container{
+    max-width:420px;
+    margin:60px auto;
+    background:#fff;
+    padding:25px;
+    border-radius:8px;
+    box-shadow:0 2px 8px rgba(0,0,0,.15);
 }
 
 input{
     width:100%;
     padding:10px;
     margin:10px 0;
+    box-sizing:border-box;
 }
 
 button{
     padding:10px 20px;
+    cursor:pointer;
 }
 
 #error{
     color:red;
+    margin-top:10px;
+}
+
+#inviteForm{
+    display:none;
 }
 </style>
 
@@ -36,117 +48,147 @@ button{
 
 <body>
 
-<h2 id="title">Login</h2>
+<div class="container" id="inviteForm">
 
-<div id="signup">
+<h2>Complete Your Registration</h2>
 
-<p>Create your account.</p>
+<p>Create your username and password.</p>
 
 <input
 id="username"
+type="text"
 placeholder="Username">
 
 <input
-type="password"
 id="password"
+type="password"
 placeholder="Password">
 
 <input
+id="confirmPassword"
 type="password"
-id="confirm"
 placeholder="Confirm Password">
 
-<button id="createBtn">
+<button id="createAccount">
 Create Account
 </button>
 
-<p id="error"></p>
+<div id="error"></div>
 
 </div>
 
 <script>
 
-netlifyIdentity.init();
+const identity = window.netlifyIdentity;
 
-const hash = window.location.hash;
+identity.init();
+
+const params = new URLSearchParams(window.location.hash.substring(1));
 
 const inviteToken =
-    new URLSearchParams(hash.substring(1)).get("invite_token")
-    ||
-    new URLSearchParams(hash.substring(1)).get("confirmation_token");
+      params.get("invite_token")
+   || params.get("confirmation_token");
 
-if(inviteToken){
+function loadCMS(){
 
-    document.getElementById("title").innerHTML="Complete Registration";
+    const script=document.createElement("script");
 
-    document.getElementById("signup").style.display="block";
+    script.src="https://unpkg.com/decap-cms@^3/dist/decap-cms.js";
 
-}else{
-
-    netlifyIdentity.open();
+    document.body.appendChild(script);
 
 }
 
-document
-.getElementById("createBtn")
-.addEventListener("click",function(){
+if(inviteToken){
+
+    document.getElementById("inviteForm").style.display="block";
+
+}else{
+
+    loadCMS();
+
+}
+
+document.getElementById("createAccount").onclick=async function(){
 
     const username=document.getElementById("username").value.trim();
 
     const password=document.getElementById("password").value;
 
-    const confirm=document.getElementById("confirm").value;
+    const confirm=document.getElementById("confirmPassword").value;
 
-    if(username==""){
-        error.innerHTML="Enter username";
+    const error=document.getElementById("error");
+
+    error.innerHTML="";
+
+    if(username===""){
+        error.innerHTML="Please enter a username.";
         return;
     }
 
-    if(password!=confirm){
-        error.innerHTML="Passwords do not match";
+    if(password.length<8){
+        error.innerHTML="Password must be at least 8 characters.";
         return;
     }
 
-    netlifyIdentity.acceptInvite(
-        inviteToken,
-        password,
-        true
-    )
-    .then(user=>{
+    if(password!==confirm){
+        error.innerHTML="Passwords do not match.";
+        return;
+    }
 
-        return user.update({
+    try{
+
+        const user=await identity.acceptInvite(
+            inviteToken,
+            password,
+            true
+        );
+
+        await user.update({
+
             data:{
                 username:username
             }
+
         });
 
-    })
-    .then(()=>{
+        alert("Account created successfully.");
 
-        alert("Registration Complete");
+        window.location.href="/admin/";
 
-        location.href="/admin/";
+    }
 
-    })
-    .catch(err=>{
+    catch(err){
 
-        console.log(err);
+        console.error(err);
 
         error.innerHTML=err.message;
 
-    });
+    }
+
+};
+
+identity.on("login",function(user){
+
+    console.log("Logged in",user);
+
+    window.location.href="/admin/";
 
 });
 
-netlifyIdentity.on("login",function(){
+identity.on("logout",function(){
 
-    location.href="/admin/";
+    location.reload();
 
 });
 
+identity.on("error",function(err){
+
+    console.error(err);
+
+});
 </script>
-
-<script src="https://unpkg.com/decap-cms@^3/dist/decap-cms.js"></script>
 
 </body>
 </html>
+```
