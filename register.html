@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,8 +11,8 @@
 
 body {
     font-family: Arial, sans-serif;
-    max-width:400px;
-    margin:60px auto;
+    max-width: 420px;
+    margin: 60px auto;
     background:#f5f5f5;
 }
 
@@ -24,7 +24,7 @@ body {
 
 input {
     width:100%;
-    padding:10px;
+    padding:12px;
     margin:10px 0;
     box-sizing:border-box;
 }
@@ -33,23 +33,15 @@ button {
     width:100%;
     padding:12px;
     cursor:pointer;
-    background:#222;
-    color:white;
-    border:none;
-}
-
-button:hover {
-    background:#444;
 }
 
 #error {
     color:red;
-    margin-top:15px;
 }
 
-#success {
-    color:green;
-    margin-top:15px;
+#debug {
+    color:#666;
+    font-size:12px;
 }
 
 </style>
@@ -64,24 +56,20 @@ button:hover {
 
 <h2>Create Account</h2>
 
-<p>Complete your invited account setup.</p>
-
-
-<input
-type="text"
+<input 
 id="username"
 placeholder="Username">
 
 
-<input
-type="password"
+<input 
 id="password"
+type="password"
 placeholder="Password">
 
 
-<input
-type="password"
+<input 
 id="confirm"
+type="password"
 placeholder="Confirm Password">
 
 
@@ -92,7 +80,7 @@ Create Account
 
 <p id="error"></p>
 
-<p id="success"></p>
+<p id="debug"></p>
 
 
 </div>
@@ -102,17 +90,36 @@ Create Account
 <script>
 
 
-const identity = window.netlifyIdentity;
+const error =
+document.getElementById("error");
 
 
-identity.init();
+const debug =
+document.getElementById("debug");
+
+
+
+console.log(
+"Current URL:",
+window.location.href
+);
+
+
+
+console.log(
+"Hash:",
+window.location.hash
+);
+
+
+
+const hash =
+window.location.hash.substring(1);
 
 
 
 const params =
-new URLSearchParams(
-    window.location.hash.substring(1)
-);
+new URLSearchParams(hash);
 
 
 
@@ -121,24 +128,22 @@ params.get("invite_token");
 
 
 
-const error =
-document.getElementById("error");
-
-
-const success =
-document.getElementById("success");
+debug.innerHTML =
+"Token found: " + inviteToken;
 
 
 
 if(!inviteToken){
 
-    error.innerHTML =
-    "Invalid invitation link.";
 
-    document.getElementById("create").disabled=true;
+error.innerHTML =
+"Invalid invitation link. No invite token found.";
+
+
+document.getElementById("create").disabled=true;
+
 
 }
-
 
 
 
@@ -163,38 +168,15 @@ document.getElementById("confirm").value;
 
 
 error.innerHTML="";
-success.innerHTML="";
-
-
-
-if(username===""){
-
-    error.innerHTML =
-    "Please enter username.";
-
-    return;
-
-}
-
-
-
-if(password.length < 8){
-
-    error.innerHTML =
-    "Password must be at least 8 characters.";
-
-    return;
-
-}
 
 
 
 if(password !== confirm){
 
-    error.innerHTML =
-    "Passwords do not match.";
+error.innerHTML =
+"Passwords do not match";
 
-    return;
+return;
 
 }
 
@@ -204,7 +186,7 @@ try {
 
 
 const user =
-await identity.acceptInvite(
+await netlifyIdentity.acceptInvite(
     inviteToken,
     password,
     true
@@ -214,24 +196,20 @@ await identity.acceptInvite(
 
 await user.update({
 
-    data:{
-        username:username
-    }
+data:{
+    username:username
+}
 
 });
 
 
 
-success.innerHTML =
-"Account created. Redirecting...";
+alert(
+"Account created successfully"
+);
 
 
-
-setTimeout(()=>{
-
-    window.location.href="/admin/";
-
-},1500);
+window.location.href="/admin/";
 
 
 
@@ -239,20 +217,15 @@ setTimeout(()=>{
 
 catch(err){
 
-
 console.error(err);
-
 
 error.innerHTML =
 err.message;
 
-
 }
 
 
-
 };
-
 
 
 </script>
