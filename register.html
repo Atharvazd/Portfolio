@@ -20,11 +20,18 @@
 window.netlifyIdentity.init();
 
 
-window.netlifyIdentity.on("init", function(user){
+window.netlifyIdentity.on("init", function(user) {
 
-    if(user){
+    console.log("Identity initialized:", user);
 
+    if (user) {
         window.location.href="/admin/";
+    }
+
+    else {
+
+        // Open Netlify signup popup
+        window.netlifyIdentity.open();
 
     }
 
@@ -33,12 +40,18 @@ window.netlifyIdentity.on("init", function(user){
 
 window.netlifyIdentity.on("login", function(user){
 
-    console.log("User created:", user);
+    console.log("Login successful:", user);
 
     window.location.href="/admin/";
 
 });
 
+
+window.netlifyIdentity.on("error", function(error){
+
+    console.error("Identity error:", error);
+
+});
 
 </script>
 
