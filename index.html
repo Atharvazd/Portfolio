@@ -110,6 +110,7 @@
             }
         }
     </style>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 
 <body>
@@ -145,20 +146,79 @@
 <footer>
     <p>&copy; 2026 My Blog. All Rights Reserved.</p>
 </footer>
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
 
 <script>
-if (window.netlifyIdentity) {
-  window.netlifyIdentity.init();
 
-  // Handle email confirmation
-  if (window.location.hash.includes("confirmation_token")) {
-    window.netlifyIdentity.on("init", () => {
-      // After the token is processed, send the user to the CMS
-      window.location.href = "/admin/";
-    });
-  }
+if (window.netlifyIdentity) {
+
+    window.netlifyIdentity.init();
+
+
+    const params =
+        new URLSearchParams(
+            window.location.hash.substring(1)
+        );
+
+
+    const inviteToken =
+        params.get("invite_token");
+
+
+    const recoveryToken =
+        params.get("recovery_token");
+
+
+    const confirmationToken =
+        params.get("confirmation_token");
+
+
+
+    /*
+       Invite user
+    */
+    if (inviteToken) {
+
+        window.location.href =
+        "/register.html" +
+        window.location.hash;
+
+    }
+
+
+
+    /*
+       Password reset
+    */
+    else if (recoveryToken) {
+
+        window.location.href =
+        "/reset-password.html" +
+        window.location.hash;
+
+    }
+
+
+
+    /*
+       Email confirmation
+    */
+    else if (confirmationToken) {
+
+        window.netlifyIdentity.on(
+            "init",
+            function(user){
+
+                window.location.href="/admin/";
+
+            }
+        );
+
+    }
+
+
 }
+
 </script>
 </body>
 </html>
