@@ -1,34 +1,152 @@
-<!doctype html>
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Admin</title>
+<meta charset="UTF-8">
+<title>Complete Registration</title>
 
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+<style>
+body{
+    font-family:Arial;
+    max-width:450px;
+    margin:60px auto;
+}
+
+#signup{
+    display:none;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+}
+
+button{
+    padding:10px 20px;
+}
+
+#error{
+    color:red;
+}
+</style>
+
 </head>
 
 <body>
 
-<script src="https://unpkg.com/decap-cms@^3/dist/decap-cms.js"></script>
+<h2 id="title">Login</h2>
+
+<div id="signup">
+
+<p>Create your account.</p>
+
+<input
+id="username"
+placeholder="Username">
+
+<input
+type="password"
+id="password"
+placeholder="Password">
+
+<input
+type="password"
+id="confirm"
+placeholder="Confirm Password">
+
+<button id="createBtn">
+Create Account
+</button>
+
+<p id="error"></p>
+
+</div>
 
 <script>
-if (window.netlifyIdentity) {
-  window.netlifyIdentity.init();
 
-  window.netlifyIdentity.on("init", user => {
-    console.log("Identity initialized", user);
-  });
+netlifyIdentity.init();
 
-  window.netlifyIdentity.on("login", () => {
-    document.location.href = "/admin/";
-  });
+const hash = window.location.hash;
 
-  window.netlifyIdentity.on("error", err => {
-    console.error(err);
-  });
+const inviteToken =
+    new URLSearchParams(hash.substring(1)).get("invite_token")
+    ||
+    new URLSearchParams(hash.substring(1)).get("confirmation_token");
+
+if(inviteToken){
+
+    document.getElementById("title").innerHTML="Complete Registration";
+
+    document.getElementById("signup").style.display="block";
+
+}else{
+
+    netlifyIdentity.open();
+
 }
+
+document
+.getElementById("createBtn")
+.addEventListener("click",function(){
+
+    const username=document.getElementById("username").value.trim();
+
+    const password=document.getElementById("password").value;
+
+    const confirm=document.getElementById("confirm").value;
+
+    if(username==""){
+        error.innerHTML="Enter username";
+        return;
+    }
+
+    if(password!=confirm){
+        error.innerHTML="Passwords do not match";
+        return;
+    }
+
+    netlifyIdentity.acceptInvite(
+        inviteToken,
+        password,
+        true
+    )
+    .then(user=>{
+
+        return user.update({
+            data:{
+                username:username
+            }
+        });
+
+    })
+    .then(()=>{
+
+        alert("Registration Complete");
+
+        location.href="/admin/";
+
+    })
+    .catch(err=>{
+
+        console.log(err);
+
+        error.innerHTML=err.message;
+
+    });
+
+});
+
+netlifyIdentity.on("login",function(){
+
+    location.href="/admin/";
+
+});
+
 </script>
+
+<script src="https://unpkg.com/decap-cms@^3/dist/decap-cms.js"></script>
 
 </body>
 </html>
