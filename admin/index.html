@@ -1,194 +1,395 @@
-```html
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <title>Admin</title>
 
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
 <style>
-body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f5f5f5;
+
+body {
+    font-family: Arial, sans-serif;
 }
 
-.container{
-    max-width:420px;
-    margin:60px auto;
-    background:#fff;
-    padding:25px;
-    border-radius:8px;
-    box-shadow:0 2px 8px rgba(0,0,0,.15);
+.container {
+    width: 400px;
+    margin: 60px auto;
 }
 
-input{
+input {
     width:100%;
     padding:10px;
     margin:10px 0;
-    box-sizing:border-box;
 }
 
-button{
+button {
     padding:10px 20px;
     cursor:pointer;
 }
 
-#error{
+#error {
     color:red;
-    margin-top:10px;
 }
 
-#inviteForm{
+#inviteBox,
+#resetBox {
     display:none;
 }
+
 </style>
 
 </head>
 
 <body>
 
-<div class="container" id="inviteForm">
 
-<h2>Complete Your Registration</h2>
+<div class="container">
 
-<p>Create your username and password.</p>
 
-<input
+<div id="inviteBox">
+
+<h2>Complete Registration</h2>
+
+<input 
 id="username"
-type="text"
 placeholder="Username">
 
-<input
-id="password"
+
+<input 
 type="password"
+id="password"
 placeholder="Password">
 
-<input
-id="confirmPassword"
+
+<input 
 type="password"
+id="confirmPassword"
 placeholder="Confirm Password">
 
-<button id="createAccount">
+
+<button id="registerBtn">
 Create Account
 </button>
 
-<div id="error"></div>
 
 </div>
 
+
+
+<div id="resetBox">
+
+<h2>Reset Password</h2>
+
+<input
+type="password"
+id="newPassword"
+placeholder="New Password">
+
+
+<input
+type="password"
+id="confirmNewPassword"
+placeholder="Confirm Password">
+
+
+<button id="resetBtn">
+Reset Password
+</button>
+
+
+</div>
+
+
+<p id="error"></p>
+
+
+</div>
+
+
+
 <script>
+
 
 const identity = window.netlifyIdentity;
 
 identity.init();
 
-const params = new URLSearchParams(window.location.hash.substring(1));
+
+
+const hashParams =
+new URLSearchParams(
+    window.location.hash.substring(1)
+);
+
+
 
 const inviteToken =
-      params.get("invite_token")
-   || params.get("confirmation_token");
+hashParams.get("invite_token");
+
+
+const confirmationToken =
+hashParams.get("confirmation_token");
+
+
+const recoveryToken =
+hashParams.get("recovery_token");
+
+
+
+const errorBox =
+document.getElementById("error");
+
+
 
 function loadCMS(){
 
-    const script=document.createElement("script");
+    const cms =
+    document.createElement("script");
 
-    script.src="https://unpkg.com/decap-cms@^3/dist/decap-cms.js";
+    cms.src =
+    "https://unpkg.com/decap-cms@^3/dist/decap-cms.js";
 
-    document.body.appendChild(script);
+    document.body.appendChild(cms);
 
 }
 
-if(inviteToken){
 
-    document.getElementById("inviteForm").style.display="block";
 
-}else{
+
+/*
+ INVITE FLOW
+*/
+
+if(inviteToken || confirmationToken){
+
+
+    document
+    .getElementById("inviteBox")
+    .style.display="block";
+
+
+}
+
+
+
+/*
+ PASSWORD RESET FLOW
+*/
+
+else if(recoveryToken){
+
+
+    document
+    .getElementById("resetBox")
+    .style.display="block";
+
+
+}
+
+
+
+/*
+ NORMAL ADMIN LOGIN
+*/
+
+else {
+
 
     loadCMS();
 
+
 }
 
-document.getElementById("createAccount").onclick=async function(){
 
-    const username=document.getElementById("username").value.trim();
 
-    const password=document.getElementById("password").value;
 
-    const confirm=document.getElementById("confirmPassword").value;
+/*
+ CREATE ACCOUNT
+*/
 
-    const error=document.getElementById("error");
 
-    error.innerHTML="";
+document
+.getElementById("registerBtn")
+?.addEventListener(
+"click",
+async()=>{
 
-    if(username===""){
-        error.innerHTML="Please enter a username.";
-        return;
-    }
 
-    if(password.length<8){
-        error.innerHTML="Password must be at least 8 characters.";
-        return;
-    }
+let username =
+document.getElementById("username").value;
 
-    if(password!==confirm){
-        error.innerHTML="Passwords do not match.";
-        return;
-    }
 
-    try{
+let password =
+document.getElementById("password").value;
 
-        const user=await identity.acceptInvite(
-            inviteToken,
-            password,
-            true
-        );
 
-        await user.update({
+let confirm =
+document.getElementById("confirmPassword").value;
 
-            data:{
-                username:username
-            }
 
-        });
 
-        alert("Account created successfully.");
+if(password !== confirm){
 
-        window.location.href="/admin/";
+    errorBox.innerHTML =
+    "Passwords do not match";
 
-    }
+    return;
 
-    catch(err){
+}
 
-        console.error(err);
 
-        error.innerHTML=err.message;
 
-    }
+try{
 
-};
 
-identity.on("login",function(user){
+const user =
+await identity.acceptInvite(
+    inviteToken,
+    password,
+    true
+);
 
-    console.log("Logged in",user);
 
-    window.location.href="/admin/";
+
+await user.update({
+
+data:{
+    username:username
+}
 
 });
 
-identity.on("logout",function(){
 
-    location.reload();
+
+alert(
+"Account created successfully"
+);
+
+
+window.location.href="/admin/";
+
+
+
+}
+
+catch(err){
+
+console.error(err);
+
+errorBox.innerHTML =
+err.message;
+
+}
+
+
 
 });
 
-identity.on("error",function(err){
 
-    console.error(err);
+
+
+
+
+/*
+ PASSWORD RESET
+*/
+
+
+document
+.getElementById("resetBtn")
+?.addEventListener(
+"click",
+async()=>{
+
+
+let password =
+document.getElementById("newPassword").value;
+
+
+let confirm =
+document.getElementById("confirmNewPassword").value;
+
+
+
+if(password !== confirm){
+
+errorBox.innerHTML =
+"Passwords do not match";
+
+return;
+
+}
+
+
+
+try{
+
+
+await identity.completeRecovery(
+    recoveryToken,
+    password
+);
+
+
+
+alert(
+"Password updated successfully"
+);
+
+
+
+window.location.href="/admin/";
+
+
+
+}
+
+catch(err){
+
+console.error(err);
+
+errorBox.innerHTML =
+err.message;
+
+}
+
 
 });
+
+
+
+
+
+identity.on(
+"login",
+(user)=>{
+
+console.log(
+"Logged in",
+user
+);
+
+window.location.href="/admin/";
+
+});
+
+
+
+identity.on(
+"error",
+(err)=>{
+
+console.error(err);
+
+});
+
+
+
 </script>
+
 
 </body>
 </html>
-```
