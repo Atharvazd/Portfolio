@@ -1,395 +1,48 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <title>Admin</title>
 
-<meta charset="UTF-8">
-<title>Admin</title>
+  <!-- Netlify Identity -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-
-<style>
-
-body {
-    font-family: Arial, sans-serif;
-}
-
-.container {
-    width: 400px;
-    margin: 60px auto;
-}
-
-input {
-    width:100%;
-    padding:10px;
-    margin:10px 0;
-}
-
-button {
-    padding:10px 20px;
-    cursor:pointer;
-}
-
-#error {
-    color:red;
-}
-
-#inviteBox,
-#resetBox {
-    display:none;
-}
-
-</style>
-
+  <!-- Decap CMS -->
+  <script src="https://unpkg.com/decap-cms@^3/dist/decap-cms.js"></script>
 </head>
-
 <body>
 
-
-<div class="container">
-
-
-<div id="inviteBox">
-
-<h2>Complete Registration</h2>
-
-<input 
-id="username"
-placeholder="Username">
-
-
-<input 
-type="password"
-id="password"
-placeholder="Password">
-
-
-<input 
-type="password"
-id="confirmPassword"
-placeholder="Confirm Password">
-
-
-<button id="registerBtn">
-Create Account
-</button>
-
-
-</div>
-
-
-
-<div id="resetBox">
-
-<h2>Reset Password</h2>
-
-<input
-type="password"
-id="newPassword"
-placeholder="New Password">
-
-
-<input
-type="password"
-id="confirmNewPassword"
-placeholder="Confirm Password">
-
-
-<button id="resetBtn">
-Reset Password
-</button>
-
-
-</div>
-
-
-<p id="error"></p>
-
-
-</div>
-
-
-
 <script>
+if (window.netlifyIdentity) {
 
+    window.netlifyIdentity.init();
 
-const identity = window.netlifyIdentity;
+    window.netlifyIdentity.on("init", function(user) {
+        console.log("Identity initialized:", user);
+    });
 
-identity.init();
+    window.netlifyIdentity.on("login", function(user) {
+        console.log("Logged in:", user);
 
+        // Close the login modal
+        window.netlifyIdentity.close();
 
+        // Reload CMS as authenticated user
+        document.location.href = "/admin/";
+    });
 
-const hashParams =
-new URLSearchParams(
-    window.location.hash.substring(1)
-);
+    window.netlifyIdentity.on("logout", function() {
+        document.location.href = "/";
+    });
 
+    window.netlifyIdentity.on("error", function(err) {
+        console.error("Identity Error:", err);
+    });
 
-
-const inviteToken =
-hashParams.get("invite_token");
-
-
-const confirmationToken =
-hashParams.get("confirmation_token");
-
-
-const recoveryToken =
-hashParams.get("recovery_token");
-
-
-
-const errorBox =
-document.getElementById("error");
-
-
-
-function loadCMS(){
-
-    const cms =
-    document.createElement("script");
-
-    cms.src =
-    "https://unpkg.com/decap-cms@^3/dist/decap-cms.js";
-
-    document.body.appendChild(cms);
-
+} else {
+    console.error("Netlify Identity Widget failed to load.");
 }
-
-
-
-
-/*
- INVITE FLOW
-*/
-
-if(inviteToken || confirmationToken){
-
-
-    document
-    .getElementById("inviteBox")
-    .style.display="block";
-
-
-}
-
-
-
-/*
- PASSWORD RESET FLOW
-*/
-
-else if(recoveryToken){
-
-
-    document
-    .getElementById("resetBox")
-    .style.display="block";
-
-
-}
-
-
-
-/*
- NORMAL ADMIN LOGIN
-*/
-
-else {
-
-
-    loadCMS();
-
-
-}
-
-
-
-
-/*
- CREATE ACCOUNT
-*/
-
-
-document
-.getElementById("registerBtn")
-?.addEventListener(
-"click",
-async()=>{
-
-
-let username =
-document.getElementById("username").value;
-
-
-let password =
-document.getElementById("password").value;
-
-
-let confirm =
-document.getElementById("confirmPassword").value;
-
-
-
-if(password !== confirm){
-
-    errorBox.innerHTML =
-    "Passwords do not match";
-
-    return;
-
-}
-
-
-
-try{
-
-
-const user =
-await identity.acceptInvite(
-    inviteToken,
-    password,
-    true
-);
-
-
-
-await user.update({
-
-data:{
-    username:username
-}
-
-});
-
-
-
-alert(
-"Account created successfully"
-);
-
-
-window.location.href="/admin/";
-
-
-
-}
-
-catch(err){
-
-console.error(err);
-
-errorBox.innerHTML =
-err.message;
-
-}
-
-
-
-});
-
-
-
-
-
-
-/*
- PASSWORD RESET
-*/
-
-
-document
-.getElementById("resetBtn")
-?.addEventListener(
-"click",
-async()=>{
-
-
-let password =
-document.getElementById("newPassword").value;
-
-
-let confirm =
-document.getElementById("confirmNewPassword").value;
-
-
-
-if(password !== confirm){
-
-errorBox.innerHTML =
-"Passwords do not match";
-
-return;
-
-}
-
-
-
-try{
-
-
-await identity.completeRecovery(
-    recoveryToken,
-    password
-);
-
-
-
-alert(
-"Password updated successfully"
-);
-
-
-
-window.location.href="/admin/";
-
-
-
-}
-
-catch(err){
-
-console.error(err);
-
-errorBox.innerHTML =
-err.message;
-
-}
-
-
-});
-
-
-
-
-
-identity.on(
-"login",
-(user)=>{
-
-console.log(
-"Logged in",
-user
-);
-
-window.location.href="/admin/";
-
-});
-
-
-
-identity.on(
-"error",
-(err)=>{
-
-console.error(err);
-
-});
-
-
-
 </script>
-
 
 </body>
 </html>
