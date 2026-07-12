@@ -181,19 +181,15 @@
     console.log("Confirmation:", confirmationToken);
 
 
+if (inviteToken) {
 
-    if (inviteToken) {
+    console.log("Invite token found:", inviteToken);
 
-        console.log("Redirecting to registration page");
+    window.location.replace(
+        "/register.html#invite_token=" + inviteToken
+    );
 
-        window.location.replace(
-            "/register.html" + hash
-        );
-
-        return;
-
-    }
-
+}
 
 
     if (recoveryToken) {
@@ -201,8 +197,8 @@
         console.log("Redirecting to password reset page");
 
         window.location.replace(
-            "/reset-password.html" + hash
-        );
+        "/reset-password.html#recovery_token=" + recoveryToken
+    );
 
         return;
 
