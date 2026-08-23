@@ -1,0 +1,24 @@
+/*
+	Custom additions on top of the HTML5 UP "Read Only" theme (assets/css/main.css).
+	Keep vendor CSS untouched; put site-specific tweaks here.
+*/
+
+/* Uniform, cropped thumbnails for post preview cards */
+.features article .image img {
+	height: 220px;
+	object-fit: cover;
+}
+
+/* Give post/article body a little breathing room between elements */
+.post-content {
+	margin-top: 1.5em;
+}
+
+.post-content p {
+	margin-bottom: 1.25em;
+}
+
+.post-content img {
+	max-width: 100%;
+	height: auto;
+}
