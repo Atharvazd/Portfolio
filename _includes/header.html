@@ -1,0 +1,22 @@
+<!-- Header -->
+	<section id="header">
+		<header>
+			<span class="image avatar"><img src="{{ '/images/avatar.jpg' | relative_url }}" alt="" /></span>
+			<h1 id="logo"><a href="{{ '/' | relative_url }}">Shri Samarthvaani</a></h1>
+		</header>
+		<nav id="nav">
+			<ul>
+				<li><a href="{{ '/' | relative_url }}" class="{% if page.url == '/' %}active{% endif %}">Home</a></li>
+				<li><a href="{{ '/posts/' | relative_url }}" class="{% if page.url == '/posts/' or page.url == '/all-posts/' or page.layout == 'post' %}active{% endif %}">Posts</a></li>
+				<li><a href="{{ '/about/' | relative_url }}" class="{% if page.url == '/about/' %}active{% endif %}">About Us</a></li>
+			</ul>
+		</nav>
+		<footer>
+			<ul class="icons">
+				<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+				<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+				<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+				<li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+			</ul>
+		</footer>
+	</section>
