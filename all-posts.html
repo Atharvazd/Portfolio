@@ -1,0 +1,40 @@
+---
+layout: default
+title: All Posts
+description: Every post from Shri Samarthvaani
+---
+<section id="all-posts">
+	<div class="container">
+		<header class="major">
+			<h2>All Posts</h2>
+		</header>
+
+		{% if site.posts.size == 0 %}
+			<p>No posts have been published yet. Check back soon.</p>
+		{% else %}
+			<div class="features">
+				{% for post in site.posts %}
+					<article>
+						<a href="{{ post.url | relative_url }}" class="image">
+							<img src="{{ post.image | default: '/images/post-sample-image.jpg' | relative_url }}" alt="" />
+						</a>
+						<div class="inner">
+							<h4><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h4>
+							<p><small>{{ post.date | date: "%d %B %Y" }}</small></p>
+							<p>
+								{% if post.excerpt and post.excerpt != empty %}
+									{{ post.excerpt | strip_html | truncatewords: 30 }}
+								{% endif %}
+							</p>
+							<a href="{{ post.url | relative_url }}">Read More &rarr;</a>
+						</div>
+					</article>
+				{% endfor %}
+			</div>
+		{% endif %}
+
+		<ul class="actions">
+			<li><a href="{{ '/posts/' | relative_url }}" class="button">&larr; Back to Posts</a></li>
+		</ul>
+	</div>
+</section>
