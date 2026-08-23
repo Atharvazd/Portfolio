@@ -1,24 +1,52 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>{{ page.title }}</title>
-</head>
-<body>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
+		<meta name="description" content="{{ page.description | default: site.description }}" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="icon" href="{{ '/images/logo.ico' | relative_url }}" />
+		<link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}" />
+		<link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}" />
+	</head>
+	<body class="is-preload">
 
-<header>
-  <h2><a href="/">My Blog</a></h2>
-  <nav>
-    <a href="/">Home</a>
-    <a href="/posts.html">Posts</a>
-    <a href="/about.html">About</a>
-    <a href="/contact.html">Contact</a>
-  </nav>
-</header>
+		{% include header.html %}
 
-<hr>
+		<!-- Wrapper -->
+			<div id="wrapper">
 
-{{ content }}
+				<!-- Main -->
+					<div id="main">
+						{{ content }}
+					</div>
 
-</body>
+				{% include footer.html %}
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="{{ '/assets/js/jquery.min.js' | relative_url }}"></script>
+			<script src="{{ '/assets/js/jquery.scrollex.min.js' | relative_url }}"></script>
+			<script src="{{ '/assets/js/jquery.scrolly.min.js' | relative_url }}"></script>
+			<script src="{{ '/assets/js/browser.min.js' | relative_url }}"></script>
+			<script src="{{ '/assets/js/breakpoints.min.js' | relative_url }}"></script>
+			<script src="{{ '/assets/js/util.js' | relative_url }}"></script>
+			<script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+
+		<!-- Netlify Identity: redirect invite/recovery links into the CMS login -->
+			<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+			<script>
+				if (window.netlifyIdentity) {
+					window.netlifyIdentity.on("init", function (user) {
+						if (!user) {
+							window.netlifyIdentity.on("login", function () {
+								document.location.href = "{{ '/admin/' | relative_url }}";
+							});
+						}
+					});
+				}
+			</script>
+
+	</body>
 </html>
