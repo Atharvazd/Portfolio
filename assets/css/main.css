@@ -2718,7 +2718,7 @@ input, select, textarea {
 		position: fixed;
 		text-align: center;
 		top: 0;
-		width: 15em;
+		width: 12em;
 		right: 0;
 	}
 
@@ -2830,7 +2830,7 @@ input, select, textarea {
 
 	#wrapper {
 		background: #fff;
-		padding-right: 15em;
+		padding-right: 12em;
 		
 	}
 
@@ -3112,10 +3112,10 @@ input, select, textarea {
 					}
 
 			body.header-visible #wrapper, body.header-visible #titleBar {
-				-moz-transform: translateX(-15em);
-				-webkit-transform: translateX(-15em);
-				-ms-transform: translateX(-15em);
-				transform: translateX(-15em);
+				-moz-transform: translateX(-12em);
+				-webkit-transform: translateX(-12em);
+				-ms-transform: translateX(-12em);
+				transform: translateX(-12em);
 			}
 
 			body.header-visible #header {
@@ -3264,10 +3264,10 @@ input, select, textarea {
 				}
 
 			body.header-visible #wrapper, body.header-visible #titleBar {
-				-moz-transform: translateX(-15em);
-				-webkit-transform: translateX(-15em);
-				-ms-transform: translateX(-15em);
-				transform: translateX(-15em);
+				-moz-transform: translateX(-12em);
+				-webkit-transform: translateX(-12em);
+				-ms-transform: translateX(-12em);
+				transform: translateX(-12em);
 			}
 
 	}
