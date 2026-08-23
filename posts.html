@@ -1,32 +1,43 @@
 ---
 layout: default
 title: Posts
+description: Latest posts from Shri Samarthvaani
 ---
+<section id="posts">
+	<div class="container">
+		<header class="major">
+			<h2>Posts</h2>
+			<p>The latest writings, published as they come.</p>
+		</header>
 
-<h1>All Posts</h1>
+		{% if site.posts.size == 0 %}
+			<p>No posts have been published yet. Check back soon.</p>
+		{% else %}
+			<div class="features">
+				{% for post in site.posts limit: 3 %}
+					<article>
+						<a href="{{ post.url | relative_url }}" class="image">
+							<img src="{{ post.image | default: '/images/post-sample-image.jpg' | relative_url }}" alt="" />
+						</a>
+						<div class="inner">
+							<h4><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h4>
+							<p><small>{{ post.date | date: "%d %B %Y" }}</small></p>
+							<p>
+								{% if post.excerpt and post.excerpt != empty %}
+									{{ post.excerpt | strip_html | truncatewords: 30 }}
+								{% endif %}
+							</p>
+							<a href="{{ post.url | relative_url }}">Read More &rarr;</a>
+						</div>
+					</article>
+				{% endfor %}
+			</div>
 
-{% if site.posts.size == 0 %}
-  <p>No posts have been published yet.</p>
-{% else %}
-  <ul class="post-list">
-    {% for post in site.posts %}
-      <li>
-        <h2>
-          <a href="{{ post.url | relative_url }}">
-            {{ post.title }}
-          </a>
-        </h2>
-
-        <p>{{ post.date | date: "%d %B %Y" }}</p>
-
-        {% if post.excerpt %}
-          <p>{{ post.excerpt }}</p>
-        {% endif %}
-
-        <a href="{{ post.url | relative_url }}">Read More →</a>
-
-        <hr>
-      </li>
-    {% endfor %}
-  </ul>
-{% endif %}
+			{% if site.posts.size > 3 %}
+				<ul class="actions">
+					<li><a href="{{ '/all-posts/' | relative_url }}" class="button primary">More Posts</a></li>
+				</ul>
+			{% endif %}
+		{% endif %}
+	</div>
+</section>
