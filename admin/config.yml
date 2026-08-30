@@ -19,5 +19,6 @@ collections:
       - { label: "Layout", name: "layout", widget: "hidden", default: "post" }
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Author", name: "author", widget: "select", options: ["Abhishek Khandalkar", "Dr. Madhavi Mahajan"], default: "Abhishek Khandalkar" }
       - { label: "Featured Image", name: "image", widget: "image", required: false, hint: "Optional. Shown as the thumbnail on the Posts and All Posts pages. If left blank, a default placeholder image is used." }
       - { label: "Body", name: "body", widget: "markdown" }
