@@ -22,3 +22,12 @@
 	max-width: 100%;
 	height: auto;
 }
+/* Author filter buttons on the All Posts page */
+.author-filter {
+	margin-bottom: 2em;
+}
+
+.author-filter a.active {
+	background-color: #333;
+	color: #fff;
+}
