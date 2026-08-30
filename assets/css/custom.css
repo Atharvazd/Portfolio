@@ -30,7 +30,7 @@
 /* About page: two-author card layout */
 .author-grid {
 	display: grid;
-	grid-template-columns: repeat(2, 1fr);
+	grid-template-columns: 1fr;
 	gap: 2.5em;
 	margin-top: 2em;
 	text-align: left;
