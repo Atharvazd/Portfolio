@@ -10,7 +10,7 @@ layout: default
 	<div class="container">
 		<header class="major">
 			<h2>{{ page.title }}</h2>
-			<p>{{ page.date | date: "%d %B %Y" }}</p>
+			<p><small>{{ page.date | date: "%d %B %Y" }}{% if page.author %} &bull; by {{ page.author }}{% endif %}</small></p>
 		</header>
 
 		<div class="post-content">
