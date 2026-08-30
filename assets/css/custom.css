@@ -127,10 +127,13 @@
 }
 
 .news-ticker__item {
-	padding-right: 4em;
+	padding-right: 6em;
 	font-size: 0.75em;
 	letter-spacing: 0.02em;
+	word-spacing: 0.25em;
 	font-family: "Jaini Purva", cursive;
+	font-weight: 700;
+	white-space: nowrap;
 }
 
 @keyframes news-ticker-scroll {
