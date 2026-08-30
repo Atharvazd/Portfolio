@@ -108,3 +108,31 @@
 	background-color: #333;
 	color: #fff;
 }
+/* Scrolling news ticker below the homepage banner */
+.news-ticker {
+	background: #fff;
+	color: #1a1a1a;
+	overflow: hidden;
+	white-space: nowrap;
+	padding: 0.35em 0;
+}
+
+.news-ticker__track {
+	display: inline-flex;
+	animation: news-ticker-scroll 20s linear infinite;
+}
+
+.news-ticker:hover .news-ticker__track {
+	animation-play-state: paused;
+}
+
+.news-ticker__item {
+	padding-right: 4em;
+	font-size: 0.75em;
+	letter-spacing: 0.02em;
+}
+
+@keyframes news-ticker-scroll {
+	from { transform: translateX(0); }
+	to { transform: translateX(-50%); }
+}
