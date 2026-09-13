@@ -148,3 +148,6 @@
 #header .icons a.fa-youtube {
 	color: #FF0000;
 }
+header.major h2 {
+	text-decoration: underline;
+}
