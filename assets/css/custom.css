@@ -119,7 +119,7 @@
 
 .news-ticker__track {
 	display: inline-flex;
-	animation: news-ticker-scroll 40s linear infinite;
+	animation: news-ticker-scroll 80s linear infinite;
 	color: maroon;
 }
 
