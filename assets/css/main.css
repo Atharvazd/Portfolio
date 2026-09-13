@@ -2204,7 +2204,6 @@ input, select, textarea {
 			border-radius: 0;
 			width: 100%;
 			background:linear-gradient(to right, #FFA500 0%, transparent 20%, transparent 80%, #FFA500 100%);
-			#background-color: #FFA500;
 			overflow: hidden;
 			object-fit: contain;
     		object-position:center center;
