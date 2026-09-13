@@ -120,6 +120,7 @@
 .news-ticker__track {
 	display: inline-flex;
 	animation: news-ticker-scroll 27s linear infinite;
+	color: maroon;
 }
 
 .news-ticker:hover .news-ticker__track {
