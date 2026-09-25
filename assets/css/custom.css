@@ -151,3 +151,6 @@
 header.major h2 {
 	text-decoration: underline;
 }
+#logo a {
+	border-bottom: solid 1px currentColor;
+}
