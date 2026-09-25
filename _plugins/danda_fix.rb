@@ -7,7 +7,10 @@
 # switching keyboards.
 Jekyll::Hooks.register :posts, :pre_render do |post|
   next unless post.content
-
+   # Decap CMS escapes a pipe at the very start of a line as "\|" to stop
+  # it being misread as Markdown table syntax. Undo that escaping first,
+  # so it doesn't leave a stray backslash behind after the danda swap.
+  post.content = post.content.gsub("\\|", "|")
   # Double danda first (|| -> ॥), so it isn't caught by the single-danda
   # replacement below.
   post.content = post.content.gsub("||", "॥")
