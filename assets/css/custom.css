@@ -14,7 +14,7 @@
 .features article .inner h4 a,
 .features article .inner p,
 .features article .inner a {
-	color: #555;
+	color: #333;
 }
 
 /* Give post/article body a little breathing room between elements */
@@ -34,7 +34,7 @@
 .post-content h4,
 .post-content h5,
 .post-content h6 {
-	color: #555;
+	color: #333;
 }
 
 .post-content img {
