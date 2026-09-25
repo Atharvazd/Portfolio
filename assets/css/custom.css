@@ -7,7 +7,7 @@
 .features article .image img {
 	height: 220px;
 	object-fit: contain;
-	background-color: #FFF8F0;
+	background-color: #fff;
 }
 
 /* Give post/article body a little breathing room between elements */
