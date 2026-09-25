@@ -17,4 +17,12 @@ Jekyll::Hooks.register :posts, :pre_render do |post|
 
   # Single danda (| -> ।) for any pipes left over.
   post.content = post.content.gsub("|", "।")
+
+   if post.data['title']
+    title = post.data['title']
+    title = title.gsub("\\|", "|")
+    title = title.gsub("||", "॥")
+    title = title.gsub("|", "।")
+    post.data['title'] = title
+  end
 end
