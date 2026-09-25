@@ -7,6 +7,7 @@
 .features article .image img {
 	height: 220px;
 	object-fit: cover;
+	object-position: top;
 }
 
 /* Give post/article body a little breathing room between elements */
