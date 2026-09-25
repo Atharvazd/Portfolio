@@ -10,6 +10,13 @@
 	background-color: #fff;
 }
 
+.features article .inner h4,
+.features article .inner h4 a,
+.features article .inner p,
+.features article .inner a {
+	color: #555;
+}
+
 /* Give post/article body a little breathing room between elements */
 .post-content {
 	margin-top: 1.5em;
@@ -17,6 +24,17 @@
 
 .post-content p {
 	margin-bottom: 1.25em;
+}
+
+.post-content,
+.post-content p,
+.post-content h1,
+.post-content h2,
+.post-content h3,
+.post-content h4,
+.post-content h5,
+.post-content h6 {
+	color: #555;
 }
 
 .post-content img {
