@@ -175,3 +175,9 @@ header.major h2 {
 #logo a {
 	border-bottom: solid 1.5px currentColor;
 }
+body {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
