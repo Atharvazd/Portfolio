@@ -180,3 +180,6 @@ body {
 	-ms-user-select: none;
 	user-select: none;
 }
+index.strong {
+	color: #5C0000;
+}
