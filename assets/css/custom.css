@@ -33,7 +33,9 @@
 .post-content h3,
 .post-content h4,
 .post-content h5,
-.post-content h6 {
+.post-content h6,
+.post-content strong,
+.post-content b {
 	color: #333;
 }
 
