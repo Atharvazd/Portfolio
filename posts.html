@@ -21,7 +21,7 @@ description: Latest posts from Shri Samarthvaani
 						</a>
 						<div class="inner">
 							<h4><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h4>
-							<p><small>{{ post.date | date: "%d %B %Y" }}</small></p>
+							<p><small>{{ post.date | date: "%d %B %Y" }}{% if post.author %} &bull; by {{ post.author }}{% endif %}</small></p>
 							<p>
 								{% if post.excerpt and post.excerpt != empty %}
 									{{ post.excerpt | strip_html | truncatewords: 30 }}
